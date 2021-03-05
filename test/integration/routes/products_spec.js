@@ -1,7 +1,14 @@
-import { expect } from "chai"
-import { request } from "express"
-
 describe('Routes: Products', () => {
+  let request
+  let app
+
+  before(async () => {
+    app = await global.setupApp()
+    request = global.supertest(app)
+  })
+
+  after(async () => await app.database.connection.close());
+
   const defaultProduct = {
     name: 'Default product',
     description: 'product description',
@@ -10,12 +17,13 @@ describe('Routes: Products', () => {
 
   describe('GET /products', () => {
     it('shoud return a list of products', done => {
-      global.request
+      request
       .get('/products')
       .end((err, res) => {
-        expect(res.body[0]).to.eql(defaultProduct)
+        global.expect(res.body[0]).to.eql(defaultProduct)
         done(err)
       })
     })
   })
+
 })
