@@ -9,4 +9,12 @@ app.get('/', (req, res) => {
   return res.send('Hello World');
 });
 
+app.get('/products', (req, res) => {
+  res.send([{
+    name: 'Default product',
+    description: 'product description',
+    price: 100
+  }])
+})
+
 export default app;
