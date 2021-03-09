@@ -27,7 +27,7 @@ describe('Contollers: Products', () => {
       sinon.assert.calledWith(response.send, defaultProduct)
     })
 
-    it('Shour return 400 when an error occurs', async () => {
+    it('Shoud return 400 when an error occurs', async () => {
       const request = {}
       const response = {
         send: sinon.spy(),
