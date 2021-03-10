@@ -11,9 +11,12 @@ describe('Contollers: Products', () => {
     price: 100
   }]
 
+  const defaultRequest = {
+    params: {}
+  }
+
   describe('get() products', () => {
-    it('shoud return a list of products', async() => {
-      const request = {}
+    it('should return a list of products', async() => {
       const response = {
         send: sinon.spy()
       }
@@ -22,12 +25,12 @@ describe('Contollers: Products', () => {
       Product.find.withArgs({}).resolves(defaultProduct)
 
       const productsController = new ProductsController(Product)
-      await productsController.get(request, response)
+      await productsController.get(defaultRequest, response)
 
       sinon.assert.calledWith(response.send, defaultProduct)
     })
 
-    it('Shoud return 400 when an error occurs', async () => {
+    it('should return 400 when an error occurs', async () => {
       const request = {}
       const response = {
         send: sinon.spy(),
@@ -43,4 +46,27 @@ describe('Contollers: Products', () => {
       sinon.assert.calledWith(response.send, 'Error')
     })
   })
+
+  describe('getById()', () => {
+    it ('should return one product', async () => {
+      const fakeId = 'a-fake-id'
+      const request = {
+        params: {
+          id: fakeId
+        }
+      }
+      const response = {
+        send: sinon.spy()
+      }
+
+      Product.findOne = sinon.stub()
+      Product.findOne.withArgs({_id: fakeId}).resolves(defaultProduct)
+
+      const productsController = new ProductsController(Product)
+      await productsController.getById(request, response)
+      sinon.assert.calledWith(response.send, defaultProduct)
+
+    })
+  })
+
 })
