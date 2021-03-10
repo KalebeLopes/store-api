@@ -27,6 +27,15 @@ class ProductsController {
     }
   }
 
+  async createProduct (req, res) {
+    const product = new this.Product(req.body)
+    try {
+      await product.save()
+      res.status(201).send(product)
+    } catch (err) {
+      res.status(422).send(err.message)  
+    }
+  }
 }
 
 export default ProductsController

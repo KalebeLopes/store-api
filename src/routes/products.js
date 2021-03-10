@@ -14,4 +14,8 @@ router.get('/:id', (req, res) => {
   productsController.getById(req, res)
 })
 
+router.post('/', (req, res) => {
+  productsController.createProduct(req, res)
+})
+
 export default router
