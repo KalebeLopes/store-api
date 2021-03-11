@@ -36,6 +36,15 @@ class ProductsController {
       res.status(422).send(err.message)  
     }
   }
+
+  async update (req, res) {
+    try {
+      await this.Product.updateOne({ _id: req.params.id}, req.body)
+      res.sendStatus(200)
+    } catch (err) {
+      res.status(422).send(err.message)
+    }
+  }
 }
 
 export default ProductsController

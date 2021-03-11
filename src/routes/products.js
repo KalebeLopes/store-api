@@ -18,4 +18,8 @@ router.post('/', (req, res) => {
   productsController.createProduct(req, res)
 })
 
+router.put('/:id', (req, res) => {
+  productsController.update(req, res)
+})
+
 export default router
