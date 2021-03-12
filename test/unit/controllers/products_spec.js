@@ -65,7 +65,6 @@ describe('Contollers: Products', () => {
       const productsController = new ProductsController(Product)
       await productsController.getById(request, response)
       sinon.assert.calledWith(response.send, defaultProduct)
-
     })
   })
 
