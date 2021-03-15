@@ -45,6 +45,19 @@ class ProductsController {
       res.status(422).send(err.message)
     }
   }
+
+  async remove (req, res) {
+    try {
+      const id = req.params.id
+      console.log(id)
+      await this.Product.deleteOne({ _id: id })
+      res.sendStatus(204)
+    } catch(err) {
+      res.status(400).send(err.message)
+    }
+    
+
+  }
 }
 
 export default ProductsController
