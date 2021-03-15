@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run test:unit && npm run test:integration",
     "test:integration": "NODE_ENV=test mocha --opts test/integration/mocha.opts test/integration/**/*_spec.js",
     "test:unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/**/*_spec.js",
     "build": "babel src --out-dir dist",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "config": "^1.29.4",
     "express": "^4.14.0",
     "mongoose": "^5.11.19"
   }
