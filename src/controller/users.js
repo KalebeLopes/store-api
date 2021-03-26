@@ -4,8 +4,13 @@ export default class UsersController {
   }
 
   async get (req, res) {
-    const users = await this.User.find({})
-    res.send(users)
+    try {
+      const users = await this.User.find({})
+      res.send(users)
+    } catch(err) {
+      res.status(400).send(err.message)
+    }
+    
   }
 
 }
