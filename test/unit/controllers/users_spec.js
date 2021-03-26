@@ -4,9 +4,6 @@ import sinon from 'sinon'
 
 describe('Controllers: Users', () => {
   const defaultId = '56cb91bdc3464f14678934ca'
-  const defaultRequest = {
-    params: {}
-  }
   const defaultUse = [
     {
       __V: 0,
@@ -19,7 +16,12 @@ describe('Controllers: Users', () => {
   ] 
 
   describe('get() users', () => {
-    it('shoud return a list of users', async() => {
+    const defaultRequest = {
+      params: {}
+    }
+    
+    it('should return a list of users', async() => {
+      
       const response = {
         send: sinon.spy()
       }
@@ -32,6 +34,24 @@ describe('Controllers: Users', () => {
 
       sinon.assert.calledWith(response.send, defaultUse)
     })
+
+    it('should return 400 when an error occour', async() => {
+      const response = {
+        send: sinon.spy(),
+        status: sinon.stub()
+      }
+
+      response.status.withArgs(400).returns(response)
+      User.find = sinon.stub()
+      User.find.withArgs({}).rejects({ message: 'Error' })
+
+      const usersController = new UsersController(User)
+      await usersController.get(defaultRequest, response)
+
+      sinon.assert.calledWith(response.send, 'Error')
+    })
   })
+
+  
 })
 
