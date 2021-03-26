@@ -52,6 +52,12 @@ describe('Controllers: Users', () => {
     })
   })
 
-  
+  describe('post() users', () => {
+    it('should create a user', async() => {
+      const response = {
+        
+      }
+    })
+  })
 })
 

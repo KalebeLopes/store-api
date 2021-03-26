@@ -9,4 +9,24 @@ router.get('/', (req, res) => {
   usersController.get(req, res)
 })
 
+router.get('/:id', (req, res) => {
+  usersController.getById(req, res)
+})
+
+router.post('/', (req, res) => {
+  usersController.createUser(req, res)
+})
+
+router.put('/:id', (req, res) => {
+  usersController.updateUser(req, res)
+})
+
+router.delete('/', (req, res) => {
+  usersController.deleteAll(req, res)
+})
+
+router.delete('/:id', (req, res) => {
+  usersController.deleteById(req, res)
+})
+
 export default router
