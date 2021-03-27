@@ -13,8 +13,9 @@ export default class UsersController {
   }
 
   async getById (req, res) {
+    const {params: {id}} = req
     try {
-      const user = await this.User.findOne({ _id: req.params.id })
+      const user = await this.User.findOne({ _id: id })
       // console.log(user)
       res.send(user)
     } catch (err) {
