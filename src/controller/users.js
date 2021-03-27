@@ -15,7 +15,7 @@ export default class UsersController {
   async getById (req, res) {
     try {
       const user = await this.User.findOne({ _id: req.params.id })
-      console.log(user)
+      // console.log(user)
       res.send(user)
     } catch (err) {
       res.status(400).send(err.message)
@@ -36,8 +36,8 @@ export default class UsersController {
     const idUser = req.params.id 
     const bodyNewUser = req.body
     try {
-      const newUser = await this.User.updateOne({_id: idUser}, bodyNewUser)
-      res.status(201).send(await this.User.findOne({_id: idUser}))
+      await this.User.updateOne({_id: idUser}, bodyNewUser)
+      res.sendStatus(200)
     } catch (err) {
       res.status(422).send(err.message)
     }
@@ -45,8 +45,8 @@ export default class UsersController {
 
   async deleteAll (req, res) {
     try {
-      await this.User.deleteMany({})
-      res.status(204).send()
+      await this.User.deleteMany()
+      res.sendStatus(204)
     } catch (err) {
       res.status(400).send(err.message)
     }
@@ -56,7 +56,7 @@ export default class UsersController {
     const userId = req.params.id
     try {
       await this.User.deleteOne({_id: userId})
-      res.status(204).send()
+      res.sendStatus(204)
     } catch (err) {
       res.status(400).send(err.message)
     }
