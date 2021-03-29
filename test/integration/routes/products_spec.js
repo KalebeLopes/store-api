@@ -2,18 +2,7 @@ import { expect } from "chai"
 import Product from "../../../src/models/product"
 
 describe('Routes: Products', () => {
-  let request
-  let app
-
-  before(async () => {
-    app = await global.setupApp()
-    request = global.supertest(app)
-  })
-
-  after(async () => await app.database.connection.close());
-
   const defaulId = '56cb91bdc3464f14678934ca' 
-
   const defaultProduct = {
     name: 'Default product',
     description: 'product description',
