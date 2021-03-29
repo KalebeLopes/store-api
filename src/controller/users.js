@@ -36,8 +36,17 @@ export default class UsersController {
   async updateUser (req, res) {
     const idUser = req.params.id 
     const bodyNewUser = req.body
+
     try {
-      await this.User.updateOne({_id: idUser}, bodyNewUser)
+      const findedUser = await this.User.findById(idUser)
+
+      findedUser.name = bodyNewUser.name
+      findedUser.email = bodyNewUser.email
+      findedUser.role = bodyNewUser.role
+      if (bodyNewUser.password)
+        findedUser.password = bodyNewUser.password
+      
+      await findedUser.save()
       res.sendStatus(200)
     } catch (err) {
       res.status(422).send(err.message)
