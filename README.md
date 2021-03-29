@@ -3,8 +3,11 @@
 Ferramentas utilizadas: 
 * express
 * mongoose
+* MongoDB
 * supertest
 * mocha
 * sinon
 * chai
 * babel
+* Bcrypt
+* JWT
