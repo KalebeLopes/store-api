@@ -249,7 +249,7 @@ describe('Controllers: Users', () => {
   })
 
   describe('delete() users', () => {
-    it('should return 204 when an user has been deleted', async () => {
+    it('should return 204 when all users has been deleted', async () => {
       const request = {}
       const response = {
         sendStatus: sinon.spy()
