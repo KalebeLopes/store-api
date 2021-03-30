@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import { request } from 'express'
 import User from '../../../src/models/user'
+import AuthService from '../../../src/services/auth'
 
 describe('Routes: Users', () => {
   const defaultId = '56cb91bdc3464f14678934ca'
@@ -10,6 +11,7 @@ describe('Routes: Users', () => {
     password: '123password',
     role: 'admin'
   }
+
   const expectedAdminUser = {
     _id: defaultId,
     name: 'Jhon Doe',
@@ -17,10 +19,12 @@ describe('Routes: Users', () => {
     role: 'admin'
   }
 
+  const authToken = AuthService.generateToken(expectedAdminUser)
+
   beforeEach(async() => {
-    const user = new User(defaultAdmin)
-    user._id = '56cb91bdc3464f14678934ca'
     await User.deleteMany({})
+    const user = new User(defaultAdmin)
+    user._id = defaultId
     await user.save()
   })
   
@@ -30,6 +34,7 @@ describe('Routes: Users', () => {
     it('should return a list of users', done => {
       global.request
         .get('/users')
+        .set({'x-access-token': authToken})
         .end((err, res) => {
           global.expect(res.body).to.eql([expectedAdminUser])
           done(err)
@@ -40,6 +45,7 @@ describe('Routes: Users', () => {
       it('should return 200 with one user', done => {
         global.request
           .get(`/users/${defaultId}`)
+          .set({'x-access-token': authToken})
           .end((err, res) => {
             global.expect(res.statusCode).to.eql(200)
             global.expect(res.body).to.eql(expectedAdminUser)
@@ -70,6 +76,7 @@ describe('Routes: Users', () => {
 
       global.request
         .post('/users')
+        .set({'x-access-token': authToken})
         .send(newUser)
         .end((err, res) => {
           global.expect(res.body).to.eql(expectedSavedUser)
@@ -85,6 +92,7 @@ describe('Routes: Users', () => {
 
       global.request
         .put(`/users/${defaultId}`)
+        .set({'x-access-token': authToken})
         .send(updateUser)
         .end((err, res) => {
           global.expect(res.statusCode).to.eql(200)
@@ -97,6 +105,7 @@ describe('Routes: Users', () => {
     it('should return statusCode 204 when all users has been deleted', function (done){
       global.request
         .delete('/users')
+        .set({'x-access-token': authToken})
         .end((err, res) => {
           global.expect(res.statusCode).to.eql(204)
           done(err)
@@ -106,10 +115,44 @@ describe('Routes: Users', () => {
     it('should return statusCode 204 when an user has been deleted', done => {
       global.request 
         .delete(`/users/${defaultId}`)
+        .set({'x-access-token': authToken})
         .end((err, res) => {
           global.expect(res.statusCode).to.eql(204)
           done(err)
         })
     })
   })
+
+  describe('POST /users/authenticate', () => {
+    context('when authenticating an user', () => {
+      it('should generate a valid token', done => {
+        global.request
+          .post('/users/authenticate')
+          .send({
+            email: 'jhon@mail.com',
+            password: '123password'
+          })
+          .end((err, res) => {
+            global.expect(res.body).to.have.key('token')
+            global.expect(res.status).to.eql(200)
+            done(err)
+          })
+      })
+  
+      it('should return unauthorized when the password does not match', done => {
+        
+        global.request
+          .post(`/users/authenticate`)
+          .send({
+            email: 'jhon@mail.com',
+            password: 'wrong'
+          })
+          .end((err, res) => {
+            global.expect(res.status).to.eql(401)
+            done(err)
+          })
+      })
+    })
+  })
 })
+
