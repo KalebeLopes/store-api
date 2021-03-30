@@ -1,5 +1,9 @@
 {
   "database": {
     "mongoUrl": "mongodb://localhost/shop"
+  },
+  "auth": {
+    "key": "chaveSecretaParaOToken",
+    "tokenExpiresIn": "7d"
   }
 }
