@@ -1,4 +1,4 @@
-## Estudos sobre o livro "Construindo APIs testáveis e escaláveis com NodeJS", seguindo os melhores padrões de qualidade da atualidade.
+## Contrução de API testável e escalável utilizando o livro "Construindo APIs com NodeJS", seguindo os melhores padrões de qualidade da atualidade.
 
 Ferramentas utilizadas: 
 * express
@@ -11,3 +11,6 @@ Ferramentas utilizadas:
 * babel
 * Bcrypt
 * JWT
+* ACL
+* Eslint
+* Prettier
